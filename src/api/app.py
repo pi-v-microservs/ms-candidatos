@@ -13,7 +13,7 @@ def create_app(config_opt: str = "default"):
     from domain.models import Candidato, Contato, Documento
     db.init_app(app)
 
-    from controllers import candidatos_controllers
+    from api.controllers import candidatos_controllers
     app.register_blueprint(candidatos_controllers.bp)
 
     return app

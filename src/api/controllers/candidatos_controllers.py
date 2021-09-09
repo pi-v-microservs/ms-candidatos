@@ -1,8 +1,6 @@
 from flask import Blueprint, request
 from repositories.CandidatosRepository import BaseRepository
-from domain.models.Candidato import Candidato
-from services.CandidatosService import CandidatoValidator, CandidatosService
-from util.constants import props_candidato
+from services.CandidatosService import CandidatosService
 from util.validation.ValidationResult import ValidationResult
 
 bp = Blueprint('candidatos_controllers', __name__)
