@@ -1,7 +1,8 @@
 from flask import Blueprint, request
-from repositories.CandidatosRepository import BaseRepository
+
+from api.response_contents import HttpResponse
+from repositories.CandidatoRepository import CandidatoRepository
 from services.CandidatosService import CandidatosService
-from util.validation.ValidationResult import ValidationResult
 
 bp = Blueprint('candidatos_controllers', __name__)
 
@@ -13,13 +14,10 @@ def index():
 
 @bp.route("/create", methods=['POST'])
 def candidatos_create():
-    service: CandidatosService = CandidatosService(BaseRepository.repository_factory())
-    result: ValidationResult = service.insert_candidato(request)
+    service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())
+    result: HttpResponse = service.insert_candidato(request)
 
-    if result.has_errors():
-        return {"errors": result.errors}, 400
+    if result.has_errors:
+        return result.to_dict_and_status_code_tuple()
 
-    return "", 200
-
-
-
+    return result.to_dict_and_status_code_tuple()

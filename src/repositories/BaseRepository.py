@@ -1,7 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy, Model
-
 import data.database
-from domain.models.Candidato import Candidato
 
 
 class BaseRepository:
@@ -15,3 +13,4 @@ class BaseRepository:
     def insert(self, model: Model):
         self._db.session.add(model)
         self._db.session.commit()
+
