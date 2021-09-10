@@ -1,37 +1,27 @@
 from werkzeug import Request
-from werkzeug.datastructures import ImmutableMultiDict
 
-from domain.models.Candidato import Candidato
-from util.constants import props_candidato
-from repositories.CandidatosRepository import BaseRepository
-from util.validation.ValidationResult import ValidationResultBuilder, ValidationResult
-from util.validation.validation_functions import *
+from api.response_contents import HttpResponse
+from repositories.CandidatoRepository import CandidatoRepository
+from util.validation.forms_validation import InsertCandidatoForm
+from util.mappers import form_to_candidato
+from util.constants.attr_candidato import NOME_USUARIO
+from util.constants.error_messages import NAO_MAIS_DISPONIVEL
 
 
 class CandidatosService:
-    def __init__(self, repository: BaseRepository):
-        self._repository = repository
-        self._validator: CandidatoValidator = CandidatoValidator()
+    def __init__(self, repository: CandidatoRepository):
+        self._repository: CandidatoRepository = repository
 
-    def insert_candidato(self, request: Request):
-        validation_result: ValidationResult = self._validator.validate_insert_candidato(request.form)
+    def insert_candidato(self, request: Request) -> HttpResponse:
+        dados_candidato = InsertCandidatoForm(request.form, csrf_enabled=False)
 
-        if not validation_result.has_errors():
-            candidato = Candidato.from_form_data(request.form)
-            self._repository.insert(candidato)
+        if not dados_candidato.validate():
+            return HttpResponse.create_error_response(dados_candidato.errors, 400)
 
-        return validation_result
+        if self._repository.find_by_nome_usuario(request.form['nome_usuario']):
+            return HttpResponse.create_error_response({NOME_USUARIO: NAO_MAIS_DISPONIVEL}, 400)
 
+        candidato = form_to_candidato(request.form, hash_password=True)
+        self._repository.insert(candidato)
 
-class CandidatoValidator:
-    def __init__(self):
-        self._model_attributes = {x.lower() for x in vars(props_candidato).keys() if "_" not in x[0]}
-        self._result_builder: ValidationResultBuilder = ValidationResultBuilder.new()
-        self._validation_rules = {
-            props_candidato.NOME_COMPLETO: [lambda val: has_at_least(2, val), is_required],
-            props_candidato.SENHA: [lambda val: has_at_least(8, val), is_required]}
-
-    def validate_insert_candidato(self, form_data: ImmutableMultiDict) -> ValidationResult:
-        self._result_builder.use_missing_attributes_check(form_data, self._model_attributes)
-        self._result_builder.use_field_validation_rules(form_data, self._validation_rules)
-        return self._result_builder.build()
+        return HttpResponse.create_success_response("Candidato criado com sucesso", 200)
