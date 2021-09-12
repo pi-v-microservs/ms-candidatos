@@ -1,16 +1,40 @@
+from typing import Optional
+
 from werkzeug import Request
 
 from api.response_contents import HttpResponse
+from domain.models.Candidato import Candidato
 from repositories.CandidatoRepository import CandidatoRepository
-from util.validation.forms.forms_candidato import InsertCandidatoForm, UpdateCandidatoForm
+from util.validation.forms.forms_candidato import InsertCandidatoForm, UpdateCandidatoForm, GetCandidatoForm
 from util.mappers import form_to_new_candidato, form_to_existing_candidato
 from util.constants.attr_candidato import NOME_USUARIO, ID_CANDIDATO
 from util.constants.error_messages import NAO_MAIS_DISPONIVEL, NAO_ENCONTRADO
+from util.constants.entities_names import CANDIDATO
 
 
 class CandidatosService:
     def __init__(self, repository: CandidatoRepository):
         self._repository: CandidatoRepository = repository
+
+    def get_candidato(self, request: Request) -> HttpResponse:
+        dados_filtro = GetCandidatoForm(request.form)
+
+        candidato_output: Optional[Candidato] = None
+
+        if not dados_filtro.validate() and (
+                dados_filtro.errors.get(ID_CANDIDATO) and dados_filtro.errors.get(NOME_USUARIO)):
+            return HttpResponse.create_error_response(dados_filtro.errors, 403)
+
+        if not dados_filtro.errors.get(ID_CANDIDATO):
+            candidato_output = self._repository.find_by(id_candidato=request.form[ID_CANDIDATO])
+
+        if not candidato_output and not dados_filtro.errors.get(NOME_USUARIO):
+            candidato_output = self._repository.find_by(nome_usuario=request.form[NOME_USUARIO])
+
+        if not candidato_output:
+            return HttpResponse.create_error_response({CANDIDATO: NAO_ENCONTRADO}, 404)
+
+        return HttpResponse.create_success_response(candidato_output.to_dict())
 
     def insert_candidato(self, request: Request) -> HttpResponse:
         dados_candidato = InsertCandidatoForm(request.form)

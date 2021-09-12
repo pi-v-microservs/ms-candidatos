@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import List
 
@@ -31,3 +32,7 @@ class Candidato(db.Model):
         self.nacionalidade: str = nacionalidade
         self.lingua_nativa: str = lingua_nativa
         self.portugues_fluente: bool = portugues_fluente
+
+    def to_dict(self):
+        return {key: val for key, val in self.__dict__.items()
+                if not (key == 'senha' or key.startswith('_'))}

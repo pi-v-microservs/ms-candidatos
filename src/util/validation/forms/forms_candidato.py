@@ -9,6 +9,15 @@ from util.constants.error_messages import *
 from util.validation.custom_validators import YearSpan
 
 
+class GetCandidatoForm(FlaskForm):
+    def __init__(self, form_data):
+        super().__init__(form_data, csrf_enabled=False)
+    id_candidato = IntegerField(ID_CANDIDATO, validators=[
+        InputRequired(message=NECESSARIO_INFORMAR_X_OU_Y.format(x=ID_CANDIDATO, y=NOME_USUARIO))])
+    nome_usuario = StringField(NOME_USUARIO, validators=[
+        InputRequired(message=NECESSARIO_INFORMAR_X_OU_Y.format(x=ID_CANDIDATO, y=NOME_USUARIO))])
+
+
 class InsertCandidatoForm(FlaskForm):
     def __init__(self, form_data):
         super().__init__(form_data, csrf_enabled=False)

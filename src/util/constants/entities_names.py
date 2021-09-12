@@ -1,0 +1,1 @@
+CANDIDATO: str = 'Candidato'

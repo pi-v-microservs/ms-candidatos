@@ -5,3 +5,6 @@ VALORES_ENTRE: str = "O campo deve possuir valores entre {0} e {1}"
 DEVE_SER_BOOL: str = "Campo deve ser 'true' ou 'false'"
 NAO_MAIS_DISPONIVEL: str = "Já está sendo utilizado por outro usuário"
 NAO_ENCONTRADO: str = "Não encontrado"
+NECESSARIO_INFORMAR_X_OU_Y: str = "Necessário informar os campos '{x}' ou '{y}'"
+
+
