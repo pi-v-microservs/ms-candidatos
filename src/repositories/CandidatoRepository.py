@@ -15,5 +15,6 @@ class CandidatoRepository(BaseRepository):
     def repository_factory():
         return CandidatoRepository(data.database.db)
 
-    def find_by_nome_usuario(self, nome_usuario: str) -> Union[Candidato, None]:
-        return Candidato.query.filter_by(nome_usuario=nome_usuario).first()
+    def find_by(self, **kwargs) -> Union[Candidato, None]:
+        return Candidato.query.filter_by(**kwargs).first()
+

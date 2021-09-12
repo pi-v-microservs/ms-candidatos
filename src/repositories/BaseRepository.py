@@ -14,3 +14,5 @@ class BaseRepository:
         self._db.session.add(model)
         self._db.session.commit()
 
+    def commit(self):
+        self._db.session.commit()
