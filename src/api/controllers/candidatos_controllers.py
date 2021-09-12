@@ -12,6 +12,14 @@ def index():
     return "hello!"
 
 
+@bp.route('list', methods=['GET'])
+def list_candidatos():
+    service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())
+    result: HttpResponse = service.list_candidatos(request)
+
+    return result.to_dict_and_status_code_tuple()
+
+
 @bp.route('/get', methods=['GET'])
 def get_candidato():
     service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())

@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union, List
 
 
 class HttpResponse:
@@ -13,7 +13,7 @@ class HttpResponse:
         return len(self.errors) > 0
 
     @staticmethod
-    def create_success_response(content: Dict[str, str], status_code=200):
+    def create_success_response(content: Union[Dict[str, str], List[dict]], status_code=200):
         return HttpResponse(status='sucesso', content=content, errors={}, status_code=status_code)
 
     @staticmethod

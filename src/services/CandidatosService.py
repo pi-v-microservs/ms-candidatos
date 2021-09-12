@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from werkzeug import Request
 
@@ -15,6 +15,11 @@ from util.constants.entities_names import CANDIDATO
 class CandidatosService:
     def __init__(self, repository: CandidatoRepository):
         self._repository: CandidatoRepository = repository
+
+    def list_candidatos(self, request: Request) -> HttpResponse:
+        candidatos: List[Candidato] = self._repository.get_all()
+        candidatos_dicts = [candidato.to_dict() for candidato in candidatos]
+        return HttpResponse.create_success_response(candidatos_dicts)
 
     def get_candidato(self, request: Request) -> HttpResponse:
         dados_filtro = GetCandidatoForm(request.form)
