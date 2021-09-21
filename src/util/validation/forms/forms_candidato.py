@@ -38,6 +38,7 @@ class InsertCandidatoForm(FlaskForm):
 class UpdateCandidatoForm(FlaskForm):
     def __init__(self, form_data):
         super().__init__(form_data, csrf_enabled=False)
+
     id_candidato = IntegerField(ID_CANDIDATO, validators=[InputRequired(message=OBRIGATORIO)])
     nome_usuario = StringField(NOME_USUARIO, validators=[Length(3, 50, VALORES_ENTRE.format(3, 50))])
     senha = StringField(SENHA, validators=[Length(8, 250, VALORES_ENTRE.format(8, 250))])
@@ -46,3 +47,10 @@ class UpdateCandidatoForm(FlaskForm):
     nacionalidade = StringField(NACIONALIDADE, validators=[Length(2, 120, VALORES_ENTRE.format(2, 120))])
     lingua_nativa = StringField(LINGUA_NATIVA, validators=[Length(2, 100, VALORES_ENTRE.format(2, 100))])
     portugues_fluente = BooleanField(PORTUGUES_FLUENTE, validators=[InputRequired(OBRIGATORIO)])
+
+
+class DeleteCandidatoForm(FlaskForm):
+    def __init__(self, form_data):
+        super().__init__(form_data, csrf_enabled=False)
+
+    id_candidato = IntegerField(ID_CANDIDATO, validators=[InputRequired(message=OBRIGATORIO)])

@@ -1,4 +1,3 @@
-from collections import Callable
 from datetime import datetime as dt
 from werkzeug.datastructures import ImmutableMultiDict
 
@@ -6,9 +5,12 @@ from domain.models.Candidato import Candidato
 from util.constants.attr_candidato import *
 from werkzeug.security import generate_password_hash
 
+from util.mappers import use_original_if_src_is_none
+
 
 def form_to_new_candidato(form_data: ImmutableMultiDict, hash_password: bool):
     return Candidato(
+        id_candidato=None,
         nome_usuario=form_data[NOME_USUARIO],
         senha={True: generate_password_hash(form_data[SENHA]), False: form_data[SENHA]}[hash_password],
         nome_completo=form_data[NOME_COMPLETO],
@@ -34,15 +36,3 @@ def form_to_existing_candidato(form_data: ImmutableMultiDict, candidato: Candida
         mutate=lambda val: {"true": True, "false": False}[val.lower()])
 
     return candidato
-
-
-def use_original_if_src_is_none(source, original, mutate: Callable = None):
-    if source is None:
-        return original
-
-    if mutate is None:
-        return source
-    else:
-        return mutate(source)
-
-

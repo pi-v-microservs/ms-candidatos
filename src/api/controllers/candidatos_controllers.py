@@ -7,15 +7,10 @@ from services.CandidatosService import CandidatosService
 bp = Blueprint('candidatos_controllers', __name__, url_prefix='/candidatos')
 
 
-@bp.route('/')
-def index():
-    return "hello!"
-
-
-@bp.route('list', methods=['GET'])
+@bp.route('/list', methods=['GET'])
 def list_candidatos():
     service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())
-    result: HttpResponse = service.list_candidatos(request)
+    result: HttpResponse = service.list_candidatos()
 
     return result.to_dict_and_status_code_tuple()
 
@@ -35,9 +30,17 @@ def create_candidato():
     return result.to_dict_and_status_code_tuple()
 
 
-@bp.route('update', methods=['PUT'])
+@bp.route('/update', methods=['PUT'])
 def update_candidato():
     service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())
     result: HttpResponse = service.update_candidato(request)
+
+    return result.to_dict_and_status_code_tuple()
+
+
+@bp.route('/delete', methods=['DELETE'])
+def delete_candidato():
+    service: CandidatosService = CandidatosService(CandidatoRepository.repository_factory())
+    result: HttpResponse = service.delete_candidato(request)
 
     return result.to_dict_and_status_code_tuple()

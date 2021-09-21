@@ -16,4 +16,7 @@ def create_app(config_opt: str = "default"):
     from api.controllers import candidatos_controllers
     app.register_blueprint(candidatos_controllers.bp)
 
+    from api.controllers import contatos_controllers
+    app.register_blueprint(contatos_controllers.bp)
+
     return app

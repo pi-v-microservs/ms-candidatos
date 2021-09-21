@@ -6,5 +6,7 @@ DEVE_SER_BOOL: str = "Campo deve ser 'true' ou 'false'"
 NAO_MAIS_DISPONIVEL: str = "Já está sendo utilizado por outro usuário"
 NAO_ENCONTRADO: str = "Não encontrado"
 NECESSARIO_INFORMAR_X_OU_Y: str = "Necessário informar os campos '{x}' ou '{y}'"
-
-
+CONTATO_JA_EXISTE: str = "Já existe um contato cadastrado com a mesma descricao"
+CONTATO_NAO_EXISTE: str = "Contato não existe"
+APENAS_DIGITOS: str = "Campo deve conter apenas dígitos"
+EMAIL_INVALIDO: str = "Email inválido"

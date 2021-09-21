@@ -1,6 +1,5 @@
-import json
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from data.database import db
 from domain.models.Contato import Contato
@@ -22,9 +21,9 @@ class Candidato(db.Model):
     contatos: List[Contato] = db.relationship('Contato', backref='candidato')
     documentos: List[Documento] = db.relationship('Documento', backref='documentos')
 
-    def __init__(self, id_candidato: int, nome_usuario: str, senha: str, nome_completo: str,
+    def __init__(self, id_candidato: Optional[int], nome_usuario: str, senha: str, nome_completo: str,
                  data_nascimento: datetime, nacionalidade: str, lingua_nativa: str, portugues_fluente: bool):
-        self.id_candidato: int = id_candidato
+        self.id_candidato: Optional[int] = id_candidato
         self.nome_usuario: str = nome_usuario
         self.senha: str = senha
         self.nome_completo: str = nome_completo
