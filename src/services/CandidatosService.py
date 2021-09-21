@@ -71,7 +71,7 @@ class CandidatosService:
         candidato_update = form_to_existing_candidato(request.form, current_candidato, hash_password=True)
 
         self._repository.commit()
-        return HttpResponse.create_success_response({'message': "Candidato atualizado com sucesso"}, 200)
+        return HttpResponse.create_success_response({'message': "Candidato atualizado com sucesso"})
 
     def delete_candidato(self, request: Request):
         dados_delete_candidato = DeleteCandidatoForm(request.form)

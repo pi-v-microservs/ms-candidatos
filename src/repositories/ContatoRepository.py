@@ -1,13 +1,14 @@
 from typing import Optional
-from sqlalchemy import and_
+
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import and_
 from werkzeug.datastructures import ImmutableMultiDict
 
 import data.database
 from domain.models.Contato import Contato
 from repositories.BaseRepository import BaseRepository
-from util.constants.attr_contato import DESCRICAO, TIPO_CONTATO, ID_CONTATO
 from util.constants.attr_candidato import ID_CANDIDATO
+from util.constants.attr_contato import DESCRICAO, TIPO_CONTATO, ID_CONTATO
 
 
 class ContatoRepository(BaseRepository):
@@ -30,3 +31,6 @@ class ContatoRepository(BaseRepository):
 
     def get_all(self):
         return Contato.query.all()
+
+    def get_contatos_candidato(self, id_candidato: int):
+        return Contato.query.filter_by(id_candidato=id_candidato).all()

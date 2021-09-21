@@ -1,7 +1,7 @@
 from typing import Optional
 
-from domain.enums.TipoContato import TipoContato
 from data.database import db
+from domain.enums.TipoContato import TipoContato
 
 
 class Contato(db.Model):
@@ -20,3 +20,6 @@ class Contato(db.Model):
         self.tipo_contato: int = tipo_contato.value
         self.id_candidato: int = id_candidato
 
+    def to_dict(self):
+        return {key: val for key, val in self.__dict__.items()
+                if not key.startswith('_')}
