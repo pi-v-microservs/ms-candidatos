@@ -1,7 +1,6 @@
-from typing import Union
+from typing import Optional
 
 from flask_sqlalchemy import SQLAlchemy
-
 import data.database
 from domain.models.Candidato import Candidato
 from repositories.BaseRepository import BaseRepository
@@ -15,5 +14,9 @@ class CandidatoRepository(BaseRepository):
     def repository_factory():
         return CandidatoRepository(data.database.db)
 
-    def find_by_nome_usuario(self, nome_usuario: str) -> Union[Candidato, None]:
-        return Candidato.query.filter_by(nome_usuario=nome_usuario).first()
+    def find_by(self, **kwargs) -> Optional[Candidato]:
+        return Candidato.query.filter_by(**kwargs).first()
+
+    def get_all(self):
+        return Candidato.query.all()
+

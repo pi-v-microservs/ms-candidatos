@@ -1,4 +1,5 @@
 
+ID_CANDIDATO = 'id_candidato'
 NOME_USUARIO = 'nome_usuario'
 SENHA = 'senha'
 NOME_COMPLETO = 'nome_completo'

@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy, Model
+
 import data.database
 
 
@@ -14,3 +15,9 @@ class BaseRepository:
         self._db.session.add(model)
         self._db.session.commit()
 
+    def delete(self, model: Model):
+        self._db.session.delete(model)
+        self._db.session.commit()
+
+    def commit(self):
+        self._db.session.commit()

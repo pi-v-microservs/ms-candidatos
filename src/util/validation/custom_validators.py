@@ -17,4 +17,3 @@ class YearSpan:
 
         if self.min_dt > input_date or self.max_dt < input_date:
             raise ValidationError(self.message)
-

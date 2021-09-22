@@ -1,0 +1,5 @@
+ID_DOCUMENTO = 'id_documento'
+TIPO_DOCUMENTO = 'tipo_documento'
+DESCRICAO = 'descricao'
+PAIS_EMISSAO = 'pais_emissao'
+DATA_EMISSAO = 'data_emissao'
