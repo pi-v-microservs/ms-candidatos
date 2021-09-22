@@ -1,8 +1,9 @@
 import logging
 
 from flask import Flask
+from flask.cli import with_appcontext
 
-from config import config
+from api.config import config
 from data.database import db
 
 
@@ -22,5 +23,12 @@ def create_app(config_opt: str = "default"):
 
     from api.controllers import documentos_controllers
     app.register_blueprint(documentos_controllers.bp)
+
+    @app.cli.command(name='init_db')
+    @with_appcontext
+    def init_db():
+        db.create_all()
+
+    app.cli.add_command(init_db)
 
     return app

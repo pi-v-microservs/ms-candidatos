@@ -1,5 +1,9 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+from pathlib import Path
+
+from src import ROOT_DIR
+
+basedir = Path(ROOT_DIR, 'data')
 
 
 class Config:
@@ -14,18 +18,18 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+        'sqlite:///' + os.path.join(basedir, 'mscandidatos-dev.sqlite')
 
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-        'sqlite://'
+        'sqlite:///' + os.path.join(basedir, 'mscandidatos-data.sqlite')
 
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        'sqlite:///' + os.path.join(basedir, 'mscandidatos.sqlite')
 
 
 config = {
