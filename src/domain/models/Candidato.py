@@ -18,8 +18,8 @@ class Candidato(db.Model):
     lingua_nativa = db.Column(db.String(100))
     portugues_fluente = db.Column(db.BOOLEAN)
 
-    contatos: List[Contato] = db.relationship('Contato', backref='candidato')
-    documentos: List[Documento] = db.relationship('Documento', backref='documentos')
+    contatos: List[Contato] = db.relationship('Contato', backref='candidatos')
+    documentos: List[Documento] = db.relationship('Documento', backref='candidatos')
 
     def __init__(self, id_candidato: Optional[int], nome_usuario: str, senha: str, nome_completo: str,
                  data_nascimento: datetime, nacionalidade: str, lingua_nativa: str, portugues_fluente: bool):
