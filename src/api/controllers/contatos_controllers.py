@@ -11,7 +11,7 @@ bp = Blueprint('contatos_controllers', __name__, url_prefix='/contatos')
 @bp.route('list', methods=['GET'])
 def list_contatos():
     service: ContatosService = ContatosService(ContatoRepository.repository_factory())
-    result: HttpResponse = service.list_contatos(request.form.get(ID_CANDIDATO))
+    result: HttpResponse = service.list_contatos(request.args.get(ID_CANDIDATO))
 
     return result.to_dict_and_status_code_tuple()
 
@@ -40,7 +40,7 @@ def update_contato():
 
 
 @bp.route('delete', methods=['DELETE'])
-def update_contato():
+def delete_contato():
     service: ContatosService = ContatosService(ContatoRepository.repository_factory())
     result: HttpResponse = service.delete_contato(request)
 

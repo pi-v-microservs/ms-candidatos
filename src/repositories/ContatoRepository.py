@@ -2,7 +2,7 @@ from typing import Optional
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import and_
-from werkzeug.datastructures import ImmutableMultiDict
+from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 
 import data.database
 from domain.models.Contato import Contato
@@ -26,7 +26,7 @@ class ContatoRepository(BaseRepository):
                 Contato.descricao == form_data[DESCRICAO],
                 Contato.tipo_contato == int(form_data[TIPO_CONTATO]))).first()
 
-    def find_contato_by_id(self, form_data: ImmutableMultiDict) -> Optional[Contato]:
+    def find_contato_by_id(self, form_data: MultiDict) -> Optional[Contato]:
         return Contato.query.filter_by(id_contato=form_data[ID_CONTATO]).first()
 
     def get_all(self):

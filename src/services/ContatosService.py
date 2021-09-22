@@ -6,7 +6,8 @@ from api.response_contents import HttpResponse
 from domain.models.Contato import Contato
 from repositories.ContatoRepository import ContatoRepository
 from util.constants.attr_contato import ID_CONTATO, DESCRICAO
-from util.constants.error_messages import CONTATO_JA_EXISTE, CONTATO_NAO_EXISTE
+from util.constants.entities_names import CONTATO
+from util.constants.error_messages import CONTATO_JA_EXISTE, NAO_ENCONTRADO
 from util.mappers.contato_mappers import form_to_new_contato, form_to_existing_contato
 from util.validation.forms.forms_contato import InsertContatoForm, UpdateContatoForm, GetContatoPorIdForm
 from util.validation.validation_functions import validate_conteudo_contato
@@ -17,12 +18,12 @@ class ContatosService:
         self._repository: ContatoRepository = repository
 
     def get_contato(self, request: Request):
-        dados_contato = GetContatoPorIdForm(request.form)
+        dados_contato = GetContatoPorIdForm(request.args)
 
         if not dados_contato.validate():
             return HttpResponse.create_error_response(dados_contato.errors, 400)
 
-        contato = self._repository.find_contato_by_id(request.form)
+        contato = self._repository.find_contato_by_id(request.args)
 
         return HttpResponse.create_success_response(contato.to_dict(), 200)
 
@@ -67,7 +68,7 @@ class ContatosService:
         contato_existente: Optional[Contato] = self._repository.find_contato_by_id(request.form)
 
         if not contato_existente:
-            return HttpResponse.create_error_response({DESCRICAO: CONTATO_NAO_EXISTE}, 403)
+            return HttpResponse.create_error_response({CONTATO: NAO_ENCONTRADO}, 403)
 
         contato = form_to_existing_contato(request.form, contato_existente)
 

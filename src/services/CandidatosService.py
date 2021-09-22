@@ -23,7 +23,7 @@ class CandidatosService:
         return HttpResponse.create_success_response(candidatos_dicts)
 
     def get_candidato(self, request: Request) -> HttpResponse:
-        dados_filtro = GetCandidatoForm(request.form)
+        dados_filtro = GetCandidatoForm(request.args)
 
         candidato_output: Optional[Candidato] = None
 
@@ -32,10 +32,10 @@ class CandidatosService:
             return HttpResponse.create_error_response(dados_filtro.errors, 403)
 
         if not dados_filtro.errors.get(ID_CANDIDATO):
-            candidato_output = self._repository.find_by(id_candidato=request.form[ID_CANDIDATO])
+            candidato_output = self._repository.find_by(id_candidato=request.args[ID_CANDIDATO])
 
         if not candidato_output and not dados_filtro.errors.get(NOME_USUARIO):
-            candidato_output = self._repository.find_by(nome_usuario=request.form[NOME_USUARIO])
+            candidato_output = self._repository.find_by(nome_usuario=request.args[NOME_USUARIO])
 
         if not candidato_output:
             return HttpResponse.create_error_response({CANDIDATO: NAO_ENCONTRADO}, 404)
@@ -55,7 +55,7 @@ class CandidatosService:
         self._repository.insert(candidato)
 
         return HttpResponse.create_success_response({
-            'message': 'Candidato criado com sucesso', ID_CANDIDATO: candidato.id_candidato}, 200)
+            'message': 'Candidato criado com sucesso', ID_CANDIDATO: candidato.id_candidato})
 
     def update_candidato(self, request: Request) -> HttpResponse:
         dados_candidato = UpdateCandidatoForm(request.form)
